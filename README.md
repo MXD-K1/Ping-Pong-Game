@@ -1,6 +1,6 @@
 # Ping Pong Game
-A simple two-player Pong game where players compete to keep the ball in play and score points. 
-The main purpose of making this game is to enhance my skills further and to practice programming. 
+A simple two-player Pong game where players compete to keep the ball in play and score points.
+The main purpose of making this game is to enhance my skills further and to practice programming.
 I started this project from scratch to simulate the process of understanding the requested tasks to make a project.
 
 ## Features
@@ -28,8 +28,6 @@ I started this project from scratch to simulate the process of understanding the
    ```bash
    python main.py
    ```
-   
-OR simply you can run the [EXE file](EXE/Py-stardew%20vally.exe).
 
 ## Controls
 1. To move the first paddle use the keys w, s.
@@ -38,8 +36,8 @@ OR simply you can run the [EXE file](EXE/Py-stardew%20vally.exe).
 
 ## Problems
 1. The colors system is somehow complex.
-2. the box color in the settings is yellow , so when changing an item color to yellow they become one. 
-To understand what I mean see the [image](images/matching color problem.png)
+2. the box color in the settings is yellow , so when changing an item color to yellow they become one.
+   To understand what I mean see the [image](images/matching color problem.png)
 3. Calling `level.reinit()` continuously without the need to do so.
 4. The ball move weirdly sometimes when meeting the paddle or the two horizontal edges.
 
@@ -48,7 +46,7 @@ Contributions to this project are welcome and encouraged!
 Whether it's improving the code, fixing problems, suggesting new features, or sharing ideas, feel free to get involved.
     
 ---
-*To contribute:* 
+*To contribute:*
 - Fork the project.
 - Make your changes.
 - Create a pull request!
@@ -57,5 +55,5 @@ Whether it's improving the code, fixing problems, suggesting new features, or sh
 This project is open-source and available under the MIT License. Feel free to use, modify, and distribute the code,
 provided proper attribution is given. For more information see the included [license](LICENSE).
 
-## Contact 
+## Contact
 For any questions, issues, or feedback, don't hesitate to open an issue on GitHub or email me at hmdoonwork71@gmail.com.
