@@ -36,7 +36,7 @@ I started this project from scratch to simulate the process of understanding the
 
 ## Problems
 1. the box color in the settings is yellow , so when changing an item color to yellow they become one.
-   To understand what I mean see the [image](images/matching color problem.png)
+   To understand what I mean see the [image](images\matching color problem.png)
 2. The ball move weirdly sometimes when meeting the paddle or the two horizontal edges.
 
 ## Contributing
