@@ -57,7 +57,7 @@ class Ball(pygame.sprite.Sprite):
         self.display_surf = pygame.display.get_surface()
 
         self.movement = pygame.Vector2()
-        self.speed = 5
+        self.speed = 15
 
         self.rect = pygame.rect.Rect(self.pos[0] - self.radius, self.pos[1], self.radius * 2, self.radius * 2)
 
@@ -65,15 +65,15 @@ class Ball(pygame.sprite.Sprite):
 
     def render(self):
         pygame.draw.circle(self.display_surf, self.color, self.pos, self.radius)
-        pygame.draw.rect(self.display_surf, "yellow", self.rect, 1)  # testing
+        # pygame.draw.rect(self.display_surf, "yellow", self.rect, 1)  # testing
 
     def check_collision(self):  # it causes many illusions. Needs some improvements
         for paddle in self.paddles_group.sprites():
-            collision_rect = (paddle.rect.left if paddle.side == "right" else paddle.rect.right
-                              , paddle.rect.top, 1, paddle.height)
+            collision_rect = (paddle.rect.left if paddle.side == "right" else paddle.rect.right,
+                              paddle.rect.top, 1, paddle.height)
             top = (paddle.rect.left, paddle.rect.top, paddle.width, 1)
             bottom = (paddle.rect.left, paddle.rect.bottom, paddle.width, 1)
-            pygame.draw.rect(self.display_surf, "yellow", collision_rect, 1)  # testing
+            # pygame.draw.rect(self.display_surf, "yellow", collision_rect, 1)  # testing
             # pygame.draw.rect(self.display_surf, "orange", top, 1)  # testing
             # pygame.draw.rect(self.display_surf, "orange", bottom, 1)  # testing
             if self.rect.colliderect(top) or self.rect.colliderect(bottom):

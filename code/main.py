@@ -1,13 +1,11 @@
-
-
 import sys
+
 import pygame
 
 from settings import *
 from level import Level
 from start_screen import StartScreen
 
-# Fixed typo: AII_COLORS → ALL_COLORS
 ALL_COLORS = {
     'screen': {'colors': ['black', 'white'], 'pos': 0},
     'paddle 1': {'colors': ['red', 'blue', 'yellow', 'orange', 'green', 'purple'], 'pos': 0},
@@ -33,26 +31,25 @@ class Game:
         self.level = Level(self.colors)
         self.start_screen = StartScreen(self.colors)
 
-        self.level_initialized = False
+        self.level_initialized = False  # To init the game only when needed
 
     def get_color(self, key):
         return self.colors[key]['colors'][self.colors[key]['pos']]
 
-    def handle_events(self):
+    @staticmethod
+    def handle_events():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
 
-    def update(self, dt):
+    def update(self):
         if self.start_screen.play_button.pressed:
             if not self.level_initialized:
                 self.level.colors = self.colors
                 pygame.mouse.set_visible(False)
                 self.level.re_init()
                 self.level_initialized = True
-
-            self.level.run(dt)
 
             if pygame.key.get_pressed()[pygame.K_k]:
                 self.start_screen.play_button.pressed = False
@@ -63,11 +60,17 @@ class Game:
         else:
             if not self.start_screen.settings_button.pressed:
                 self.start_screen.play_button.check_pressed()
-            self.start_screen.update()
+
             self.colors = self.start_screen.colors
 
-    def draw(self):
+    def draw(self, dt):
         self.screen.fill(self.get_color('screen'))
+
+        if self.start_screen.play_button.pressed:
+            self.level.run(dt)
+        else:
+            self.start_screen.update()
+
         pygame.display.update()
 
     def run(self):
@@ -77,8 +80,8 @@ class Game:
             dt = self.clock.tick(FPS) / 100
             pygame.display.set_caption(f"Ping Pong by MXD - FPS: {self.clock.get_fps():.2f}")
 
-            self.update(dt)
-            self.draw()
+            self.update()
+            self.draw(dt)
 
 
 if __name__ == '__main__':

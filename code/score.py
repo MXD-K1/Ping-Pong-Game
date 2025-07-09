@@ -16,8 +16,8 @@ class Score:
 
     def display(self):
         red_font = self.font.render(f'Player 2: {self.scores['player 2']}',
-                                    False, self.paddle_colors[0])
+                                    True, self.paddle_colors[0])
         blue_font = self.font.render(f'Player 1: {self.scores['player 1']}',
-                                     False, self.paddle_colors[1])
+                                     True, self.paddle_colors[1])
         self.display_surf.blit(blue_font, (SCREEN_WIDTH // 2 - 100, 20))
         self.display_surf.blit(red_font, (SCREEN_WIDTH // 2 + 20, 20))

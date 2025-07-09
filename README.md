@@ -22,7 +22,7 @@ I started this project from scratch to simulate the process of understanding the
    ```
 4. If you are not in code file write this into the terminal:
     ```bash
-   cd code
+   cd code 
    ```
 5. Run the main script:
    ```bash
@@ -32,7 +32,7 @@ I started this project from scratch to simulate the process of understanding the
 ## Controls
 1. To move the first paddle use the keys w, s.
 2. To move the second paddle use the up and down arrow keys.
-3. To get out use k the reason is that it is far form the first player movement keys.
+3. To get out use k. The reason is that it is far form the first player movement keys.
 
 ## Problems
 1. The colors system is somehow complex.

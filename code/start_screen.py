@@ -11,57 +11,60 @@ class StartScreen:
         self.display_surf = pygame.display.get_surface()
 
         self.font = pygame.font.SysFont(None, 48)
-        self.play_button = Button(self.display_surf, self.colors['button']['colors'][self.colors['button']['pos']],
+        self.play_button = Button(self.display_surf, self.get_color('button'),
                                   (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - 100),
                                   "Play", 42,
-                                  self.colors['button text']['colors'][self.colors['button text']['pos']])
+                                  self.get_color('button text'))
 
-        self.settings_button = Button(self.display_surf, self.colors['button']['colors'][self.colors['button']['pos']],
+        self.settings_button = Button(self.display_surf, self.get_color('button'),
                                       (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2),
-                                      "Settings", 32,
-                                      self.colors['button text']['colors'][self.colors['button text']['pos']])
+                                      "Settings", 32, self.get_color('button text'))
+
+        self.welcome_label = Label(self.display_surf, "Welcome to Ping Pong", self.get_color("text"),
+                                   (SCREEN_WIDTH // 2, 50))
 
     def re_init(self):
-        self.play_button.color = self.colors['button']['colors'][self.colors['button']['pos']]
-        self.play_button.font_color = self.colors['button text']['colors'][self.colors['button text']['pos']]
-        self.settings_button.color = self.colors['button']['colors'][self.colors['button']['pos']]
-        self.settings_button.font_color = self.colors['button text']['colors'][self.colors['button text']['pos']]
+        self.play_button.color = self.get_color('button')
+        self.play_button.font_color = self.get_color('button text')
+        self.settings_button.color = self.get_color('button')
+        self.settings_button.font_color = self.get_color('button text')
+        # No need to change the color of the labels here because they are changed in show_settings.
 
     def update(self):
         self.settings_button.check_pressed()
         if self.settings_button.pressed:
             self.show_settings()
         else:
-            self.play_button.display()
-            self.settings_button.display()
-            welcome_text = self.font.render("Welcome to Ping Pong", False,
-                                            self.colors['text']['colors'][self.colors['text']['pos']])
-            self.display_surf.blit(welcome_text, (SCREEN_WIDTH // 2 - welcome_text.get_width() // 2, 50))
+            self.play_button.draw()
+            self.settings_button.draw()
+            self.welcome_label.draw()
+
+    def get_color(self, key):  # the same thing
+        return self.colors[key]['colors'][self.colors[key]['pos']]
 
     def show_settings(self):
-        msg = self.font.render("Choose the mode color you want", False,
-                               self.colors['text']['colors'][self.colors['text']['pos']])
-        self.display_surf.blit(msg, (SCREEN_WIDTH // 2 - msg.get_width() // 2, 50))
+        label = Label(self.display_surf, "Choose the mode color you want", self.get_color('text'),
+                      (SCREEN_WIDTH // 2, 50))
+        label.draw()
 
-        return_button = Button(self.display_surf, self.colors['button']['colors'][self.colors['button']['pos']],
+        return_button = Button(self.display_surf, self.get_color('button'),
                                (SCREEN_WIDTH // 2, SCREEN_HEIGHT - 100),
-                               "Return", 42,
-                               self.colors['button text']['colors'][self.colors['button text']['pos']])
+                               "Return", 42, self.get_color('button text'))
 
         color_choices = ['Screen', 'Paddle 1', 'Paddle 2', 'Ball']
         settings = []
         for index, choice in enumerate(color_choices, 1):
-            setting_colors = {'button': self.colors['button']['colors'][self.colors['button']['pos']],
-                              'box': self.colors['box']['colors'][self.colors['box']['pos']],
-                              'text': self.colors['text']['colors'][self.colors['text']['pos']],
-                              choice.lower(): self.colors[choice.lower()]['colors'][self.colors[choice.lower()]['pos']]
+            setting_colors = {'button': self.get_color('button'),
+                              'box': self.get_color('box'),
+                              'text': self.get_color('text'),
+                              choice.lower(): self.get_color(choice.lower())
                               }
 
             settings.append(SettingChoice((SCREEN_HEIGHT - 450 + 50 * index), choice, setting_colors['button'],
                                           setting_colors['box'], setting_colors['text'],
                                           setting_colors[choice.lower()]))
 
-        return_button.display()
+        return_button.draw()
 
         for setting in settings:
             setting.update()
@@ -102,6 +105,20 @@ class StartScreen:
         self.re_init()
 
 
+class Label:
+    def __init__(self, display_surface: pygame.Surface, text, color, pos: tuple[int, int], size=48):
+        self.display_surf = display_surface
+        self.text = text
+        self.color = color
+        self.pos = pos
+
+        self.font = pygame.font.SysFont(None, size)
+
+    def draw(self):
+        text = self.font.render(self.text, True, self.color)
+        self.display_surf.blit(text, (self.pos[0] - text.get_width() // 2, self.pos[1]))
+
+
 class Button:
     def __init__(self, display_surface: pygame.Surface, color, pos: tuple[int, int],
                  text=None, font_size=None, font_color=None):
@@ -117,17 +134,18 @@ class Button:
         else:
             self.no_text = True
 
-        self.rect = pygame.rect.Rect(pos[0], pos[1], 100, 50)
+        self.height, self.width = 60, 120
+        self.rect = pygame.rect.Rect(pos[0], pos[1], self.width, self.height)
         self.rect.x -= self.rect.width // 2
         self.rect.y -= self.rect.height // 2
 
         self.pressed = False
 
-    def display(self):
+    def draw(self):
         pygame.draw.rect(self.display_surf, self.color, self.rect, border_radius=15)
 
         if not self.no_text:
-            msg = self.font.render(self.text, False, self.font_color)
+            msg = self.font.render(self.text, True, self.font_color)
             msg_rect = msg.get_rect()
             msg_rect.center = self.rect.center
             self.display_surf.blit(msg, msg_rect)
@@ -146,7 +164,7 @@ class TriangleButton(Button):
         self.size = 30
         self.points = self.calculate_pos()
 
-    def display(self):
+    def draw(self):
         self.rect = pygame.draw.polygon(self.display_surf, self.color, self.points)
 
     def calculate_pos(self):
@@ -167,6 +185,8 @@ class SettingChoice:
         self.display_surf = pygame.display.get_surface()
         self.height = height
         self.color = color_to_change
+        self.box_color = box_color
+        self.name = msg
 
         self.right_button = TriangleButton(self.display_surf, button_color,
                                            (SCREEN_WIDTH - 200, self.height), "right")
@@ -174,17 +194,15 @@ class SettingChoice:
         self.left_button = TriangleButton(self.display_surf, button_color,
                                           (SCREEN_WIDTH - 100, self.height), "left")
 
+        self.label = Label(self.display_surf, self.name, font_color,
+                           (SCREEN_HEIGHT - 450, self.height), 32)
         self.font = pygame.font.SysFont(None, 32)
-        self.font_color = font_color
-        self.name = msg
-        self.box_color = box_color
 
     def update(self):
-        self.right_button.display()
-        self.left_button.display()
+        self.right_button.draw()
+        self.left_button.draw()
 
-        msg = self.font.render(self.name, False, self.font_color)
-        self.display_surf.blit(msg, (SCREEN_HEIGHT - 500, self.height))
+        self.label.draw()
 
         pygame.draw.rect(self.display_surf, self.box_color,
                          (SCREEN_WIDTH - 170, self.height - 20, 40, 40), 5)
