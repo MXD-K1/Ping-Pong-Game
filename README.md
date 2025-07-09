@@ -35,11 +35,9 @@ I started this project from scratch to simulate the process of understanding the
 3. To get out use k. The reason is that it is far form the first player movement keys.
 
 ## Problems
-1. The colors system is somehow complex.
-2. the box color in the settings is yellow , so when changing an item color to yellow they become one.
+1. the box color in the settings is yellow , so when changing an item color to yellow they become one.
    To understand what I mean see the [image](images/matching color problem.png)
-3. Calling `level.reinit()` continuously without the need to do so.
-4. The ball move weirdly sometimes when meeting the paddle or the two horizontal edges.
+2. The ball move weirdly sometimes when meeting the paddle or the two horizontal edges.
 
 ## Contributing
 Contributions to this project are welcome and encouraged!
