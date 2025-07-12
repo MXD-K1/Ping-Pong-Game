@@ -4,8 +4,8 @@
 # 📌 Make sure you have pygame installed:
 # !pip install pygame
 python
-Copy
-Edit
+
+
 ## 🧱 Step 1: Basic Pygame Setup
 
 import pygame
@@ -43,8 +43,8 @@ while running:
 
 pygame.quit()
 python
-Copy
-Edit
+
+
 ## 🎮 Step 2: Moving Objects with Arrow Keys
 
 # Let's move a square using keyboard input!
@@ -84,8 +84,8 @@ while running:
 
 pygame.quit()
 python
-Copy
-Edit
+
+
 ## ⚽ Step 3: Bouncing Ball with Simple Physics
 
 import pygame
@@ -129,8 +129,8 @@ while running:
 
 pygame.quit()
 python
-Copy
-Edit
+
+
 ## 🧼 Step 4: Cleanup and Summary
 
 print("✅ You’ve completed the Pygame crash course!")
