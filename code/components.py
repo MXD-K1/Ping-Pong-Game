@@ -56,7 +56,7 @@ class Ball(pygame.sprite.Sprite):
         self.display_surf = pygame.display.get_surface()
 
         self.movement = pygame.Vector2()
-        self.speed = 5
+        self.speed = 20
 
         self.rect = pygame.rect.Rect(self.pos[0] - self.radius, self.pos[1], self.radius * 2, self.radius * 2)
 
