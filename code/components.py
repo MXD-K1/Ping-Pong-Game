@@ -26,7 +26,6 @@ class Paddle(pygame.sprite.Sprite):
 
     def render(self):
         pygame.draw.rect(self.display_surf, self.color, self.rect, 20)
-        # pygame.draw.rect(self.display_surf, "white", self.rect, 1)  # testing
 
     def move(self, dt):
         keys = pygame.key.get_pressed()
@@ -57,7 +56,7 @@ class Ball(pygame.sprite.Sprite):
         self.display_surf = pygame.display.get_surface()
 
         self.movement = pygame.Vector2()
-        self.speed = 15
+        self.speed = 5
 
         self.rect = pygame.rect.Rect(self.pos[0] - self.radius, self.pos[1], self.radius * 2, self.radius * 2)
 
@@ -65,19 +64,23 @@ class Ball(pygame.sprite.Sprite):
 
     def render(self):
         pygame.draw.circle(self.display_surf, self.color, self.pos, self.radius)
-        # pygame.draw.rect(self.display_surf, "yellow", self.rect, 1)  # testing
+        if MODE == DEV:
+            pygame.draw.rect(self.display_surf, "yellow", self.rect, 1)
 
     def check_collision(self):  # it causes many illusions. Needs some improvements
         for paddle in self.paddles_group.sprites():
             collision_rect = (paddle.rect.left if paddle.side == "right" else paddle.rect.right,
                               paddle.rect.top, 1, paddle.height)
-            top = (paddle.rect.left, paddle.rect.top, paddle.width, 1)
-            bottom = (paddle.rect.left, paddle.rect.bottom, paddle.width, 1)
-            # pygame.draw.rect(self.display_surf, "yellow", collision_rect, 1)  # testing
-            # pygame.draw.rect(self.display_surf, "orange", top, 1)  # testing
-            # pygame.draw.rect(self.display_surf, "orange", bottom, 1)  # testing
+            top = (paddle.rect.left + 1, paddle.rect.top, paddle.width - 1, 1)
+            bottom = (paddle.rect.left + 1, paddle.rect.bottom - 1, paddle.width - 1, 1)
+            if MODE == DEV:
+                pygame.draw.rect(self.display_surf, "white", collision_rect, 2)
+                pygame.draw.rect(self.display_surf, "orange", top, 2)
+                pygame.draw.rect(self.display_surf, "orange", bottom, 2)
+
             if self.rect.colliderect(top) or self.rect.colliderect(bottom):
                 self.movement.y *= -1
+                self.pos[1] += 3 * self.movement.y
             elif self.rect.colliderect(collision_rect):
                 self.movement.x *= -1
 

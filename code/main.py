@@ -4,12 +4,12 @@ import pygame
 
 from settings import *
 from level import Level
-from start_screen import StartScreen
+from start_screen import StartScreen, Label
 
 ALL_COLORS = {
     'screen': {'colors': ['black', 'white'], 'pos': 0},
-    'paddle 1': {'colors': ['red', 'blue', 'yellow', 'orange', 'green', 'purple'], 'pos': 0},
-    'paddle 2': {'colors': ['blue', 'yellow', 'orange', 'green', 'purple', 'red'], 'pos': 0},
+    'paddle 1': {'colors': ['red', 'blue', 'yellow', 'orange', 'green', 'purple', 'cyan'], 'pos': 0},
+    'paddle 2': {'colors': ['blue', 'yellow', 'orange', 'green', 'purple', 'cyan', 'red'], 'pos': 0},
     'ball': {'colors': ['white', 'black', 'red', 'blue', 'yellow', 'orange', 'green', 'purple', 'dark gray'], 'pos': 0},
     'text': {'colors': ['white', 'black'], 'pos': 0},
     'button': {'colors': ['white', 'black'], 'pos': 0},
@@ -63,7 +63,7 @@ class Game:
 
             self.colors = self.start_screen.colors
 
-    def draw(self, dt):
+    def draw(self, dt, fps_label):
         self.screen.fill(self.get_color('screen'))
 
         if self.start_screen.play_button.pressed:
@@ -71,17 +71,20 @@ class Game:
         else:
             self.start_screen.update()
 
+        fps_label.draw()
         pygame.display.update()
 
     def run(self):
+        fps_label = Label(self.screen, "", self.get_color('text'),
+                          (50, SCREEN_HEIGHT - 20), 24)
         while True:
             self.handle_events()
 
             dt = self.clock.tick(FPS) / 100
-            pygame.display.set_caption(f"Ping Pong by MXD - FPS: {self.clock.get_fps():.2f}")
+            fps_label.text = f"FPS: {self.clock.get_fps():.2f}"
 
             self.update()
-            self.draw(dt)
+            self.draw(dt, fps_label)
 
 
 if __name__ == '__main__':

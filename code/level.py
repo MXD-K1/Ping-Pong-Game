@@ -7,16 +7,15 @@ from score import Score
 class Level:
     def __init__(self, colors: dict):
         self.colors = colors
+
         self.right_paddle = Paddle(self.get_color('paddle 1'), "right")
         self.left_paddle = Paddle(self.get_color('paddle 2'), "left")
-
         # noinspection PyTypeChecker
         self.paddles_group = pygame.sprite.Group(self.right_paddle, self.left_paddle)
-
         self.ball = Ball(self.get_color('ball'), self.paddles_group)
+
         self.scores = {'player 1': 0, 'player 2': 0}
-        self.score = Score(self.scores, (self.get_color('paddle 1'),
-                                         self.get_color('paddle 2')))
+        self.score = Score(self.scores, (self.get_color('paddle 1'), self.get_color('paddle 2')))
 
     def get_color(self, key):  # the same thing
         return self.colors[key]['colors'][self.colors[key]['pos']]
