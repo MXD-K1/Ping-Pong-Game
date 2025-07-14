@@ -3,6 +3,7 @@ import time
 import pygame
 
 from settings import *
+from colors import get_color
 
 
 class StartScreen:
@@ -11,23 +12,23 @@ class StartScreen:
         self.display_surf = pygame.display.get_surface()
 
         self.font = pygame.font.SysFont(None, 48)
-        self.play_button = Button(self.display_surf, self.get_color('button'),
+        self.play_button = Button(self.display_surf, get_color(self.colors, 'button'),
                                   (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - 100),
                                   "Play", 42,
-                                  self.get_color('button text'))
+                                  get_color(self.colors, 'button text'))
 
-        self.settings_button = Button(self.display_surf, self.get_color('button'),
+        self.settings_button = Button(self.display_surf, get_color(self.colors, 'button'),
                                       (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2),
-                                      "Settings", 32, self.get_color('button text'))
+                                      "Settings", 32, get_color(self.colors, 'button text'))
 
-        self.welcome_label = Label(self.display_surf, "Welcome to Ping Pong", self.get_color("text"),
+        self.welcome_label = Label(self.display_surf, "Welcome to Ping Pong", get_color(self.colors, "text"),
                                    (SCREEN_WIDTH // 2, 50))
 
     def re_init(self):
-        self.play_button.color = self.get_color('button')
-        self.play_button.font_color = self.get_color('button text')
-        self.settings_button.color = self.get_color('button')
-        self.settings_button.font_color = self.get_color('button text')
+        self.play_button.color = get_color(self.colors, 'button')
+        self.play_button.font_color = get_color(self.colors, 'button text')
+        self.settings_button.color = get_color(self.colors, 'button')
+        self.settings_button.font_color = get_color(self.colors, 'button text')
         # No need to change the color of the labels here because they are changed in show_settings.
 
     def update(self):
@@ -39,25 +40,22 @@ class StartScreen:
             self.settings_button.draw()
             self.welcome_label.draw()
 
-    def get_color(self, key):  # the same thing
-        return self.colors[key]['colors'][self.colors[key]['pos']]
-
     def show_settings(self):
-        label = Label(self.display_surf, "Choose the mode color you want", self.get_color('text'),
+        label = Label(self.display_surf, "Choose the mode color you want", get_color(self.colors, 'text'),
                       (SCREEN_WIDTH // 2, 50))
         label.draw()
 
-        return_button = Button(self.display_surf, self.get_color('button'),
+        return_button = Button(self.display_surf, get_color(self.colors, 'button'),
                                (SCREEN_WIDTH // 2, SCREEN_HEIGHT - 100),
-                               "Return", 42, self.get_color('button text'))
+                               "Return", 42, get_color(self.colors, 'button text'))
 
         color_choices = ['Screen', 'Paddle 1', 'Paddle 2', 'Ball']
         settings = []
         for index, choice in enumerate(color_choices, 1):
-            setting_colors = {'button': self.get_color('button'),
-                              'box': self.get_color('box'),
-                              'text': self.get_color('text'),
-                              choice.lower(): self.get_color(choice.lower())
+            setting_colors = {'button': get_color(self.colors, 'button'),
+                              'box': get_color(self.colors, 'box'),
+                              'text': get_color(self.colors, 'text'),
+                              choice.lower(): get_color(self.colors, choice.lower())
                               }
 
             settings.append(SettingChoice((SCREEN_HEIGHT - 450 + 50 * index), choice, setting_colors['button'],

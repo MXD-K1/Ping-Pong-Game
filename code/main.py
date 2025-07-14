@@ -5,17 +5,7 @@ import pygame
 from settings import *
 from level import Level
 from start_screen import StartScreen, Label
-
-ALL_COLORS = {
-    'screen': {'colors': ['black', 'white'], 'pos': 0},
-    'paddle 1': {'colors': ['red', 'blue', 'yellow', 'orange', 'green', 'purple', 'cyan'], 'pos': 0},
-    'paddle 2': {'colors': ['blue', 'yellow', 'orange', 'green', 'purple', 'cyan', 'red'], 'pos': 0},
-    'ball': {'colors': ['white', 'black', 'red', 'blue', 'yellow', 'orange', 'green', 'purple', 'dark gray'], 'pos': 0},
-    'text': {'colors': ['white', 'black'], 'pos': 0},
-    'button': {'colors': ['white', 'black'], 'pos': 0},
-    'button text': {'colors': ['black', 'white'], 'pos': 0},
-    'box': {'colors': ['yellow'], 'pos': 0}  # yellow temp
-}
+from colors import ALL_COLORS, get_color
 
 
 class Game:
@@ -32,9 +22,6 @@ class Game:
         self.start_screen = StartScreen(self.colors)
 
         self.level_initialized = False  # To init the game only when needed
-
-    def get_color(self, key):
-        return self.colors[key]['colors'][self.colors[key]['pos']]
 
     @staticmethod
     def handle_events():
@@ -64,7 +51,7 @@ class Game:
             self.colors = self.start_screen.colors
 
     def draw(self, dt, fps_label):
-        self.screen.fill(self.get_color('screen'))
+        self.screen.fill(get_color(self.colors, 'screen'))
 
         if self.start_screen.play_button.pressed:
             self.level.run(dt)
@@ -75,16 +62,18 @@ class Game:
         pygame.display.update()
 
     def run(self):
-        fps_label = Label(self.screen, "", self.get_color('text'),
+        fps_label = Label(self.screen, "", get_color(self.colors, 'text'),
                           (50, SCREEN_HEIGHT - 20), 24)
         while True:
             self.handle_events()
 
             dt = self.clock.tick(FPS) / 100
-            fps_label.text = f"FPS: {self.clock.get_fps():.2f}"
+            if MODE == DEV:
+                fps_label.text = f"FPS: {self.clock.get_fps():.2f}"
 
             self.update()
-            self.draw(dt, fps_label)
+            if MODE == DEV:
+                self.draw(dt, fps_label)
 
 
 if __name__ == '__main__':
