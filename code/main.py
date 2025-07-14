@@ -30,7 +30,7 @@ class Game:
                 pygame.quit()
                 sys.exit()
 
-    def update(self):
+    def update(self, fps_label):
         if self.start_screen.play_button.pressed:
             if not self.level_initialized:
                 self.level.colors = self.colors
@@ -50,6 +50,9 @@ class Game:
 
             self.colors = self.start_screen.colors
 
+        if MODE == DEV:
+            fps_label.text = f"FPS: {self.clock.get_fps():.2f}"
+
     def draw(self, dt, fps_label):
         self.screen.fill(get_color(self.colors, 'screen'))
 
@@ -58,7 +61,8 @@ class Game:
         else:
             self.start_screen.update()
 
-        fps_label.draw()
+        if MODE == DEV:
+            fps_label.draw()
         pygame.display.update()
 
     def run(self):
@@ -68,12 +72,9 @@ class Game:
             self.handle_events()
 
             dt = self.clock.tick(FPS) / 100
-            if MODE == DEV:
-                fps_label.text = f"FPS: {self.clock.get_fps():.2f}"
 
-            self.update()
-            if MODE == DEV:
-                self.draw(dt, fps_label)
+            self.update(fps_label)
+            self.draw(dt, fps_label)
 
 
 if __name__ == '__main__':

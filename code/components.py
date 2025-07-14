@@ -41,7 +41,7 @@ class Paddle(pygame.sprite.Sprite):
             self.pos[1] = SCREEN_HEIGHT - self.height // 2 - 5  # -5 to avoid a conflict
             self.rect.y = self.pos[1]
         elif self.rect.y >= SCREEN_HEIGHT - self.height // 2:
-            self.pos[1] = - self.height // 2 - 5  # -5 to avoid a conflict
+            self.pos[1] = - self.height // 2 + 5  # +5 to avoid a conflict
             self.rect.y = self.pos[1]
 
 
@@ -66,23 +66,6 @@ class Ball(pygame.sprite.Sprite):
         pygame.draw.circle(self.display_surf, self.color, self.pos, self.radius)
         if MODE == DEV:
             pygame.draw.rect(self.display_surf, "yellow", self.rect, 1)
-
-    def check_collision(self):  # it causes many illusions. Needs some improvements
-        for paddle in self.paddles_group.sprites():
-            collision_rect = (paddle.rect.left if paddle.side == "right" else paddle.rect.right,
-                              paddle.rect.top, 1, paddle.height)
-            top = (paddle.rect.left + 1, paddle.rect.top, paddle.width - 1, 1)
-            bottom = (paddle.rect.left + 1, paddle.rect.bottom - 1, paddle.width - 1, 1)
-            if MODE == DEV:
-                pygame.draw.rect(self.display_surf, "white", collision_rect, 2)
-                pygame.draw.rect(self.display_surf, "orange", top, 2)
-                pygame.draw.rect(self.display_surf, "orange", bottom, 2)
-
-            if self.rect.colliderect(top) or self.rect.colliderect(bottom):
-                self.movement.y *= -1
-                self.pos[1] += 3 * self.movement.y
-            elif self.rect.colliderect(collision_rect):
-                self.movement.x *= -1
 
     def check_edges(self, scores):
         if self.pos[0] <= self.radius // 2:
@@ -110,5 +93,3 @@ class Ball(pygame.sprite.Sprite):
 
         if self.pos[1] <= self.radius or self.pos[1] >= SCREEN_HEIGHT - self.radius:
             self.movement.y *= -1
-
-        self.check_collision()
