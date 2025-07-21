@@ -40,6 +40,8 @@ class Game:
 
             if pygame.key.get_pressed()[pygame.K_k]:
                 self.start_screen.play_button.pressed = False
+                self.start_screen.one_player_button.pressed = False
+                self.start_screen.two_players_button.pressed = False
                 pygame.mouse.set_visible(True)
                 self.level.reset()
                 self.level_initialized = False

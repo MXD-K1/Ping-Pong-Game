@@ -39,6 +39,10 @@ class Level:
         self.score.paddle_colors = (get_color(self.colors, 'paddle 1'), get_color(self.colors, 'paddle 2'))
         self.score.names = ("Player", "Computer") if not self.two_players else ("Player 1", "Player 2")
 
+        self.paddles_group.empty()
+        # noinspection PyTypeChecker
+        self.paddles_group.add(self.right_paddle, self.left_paddle)
+
     def reset(self):
         self.scores = {'player 1': 0, 'player 2': 0}
         self.right_paddle = Paddle(get_color(self.colors, 'paddle 1'), "right")
