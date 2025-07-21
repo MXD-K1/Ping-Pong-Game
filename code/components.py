@@ -25,7 +25,7 @@ class Paddle(pygame.sprite.Sprite):
         self.speed = 25
 
     def render(self):
-        pygame.draw.rect(self.display_surf, self.color, self.rect, 20)
+        pygame.draw.rect(self.display_surf, self.color, self.rect)
 
     def move(self, dt):
         keys = pygame.key.get_pressed()
@@ -64,8 +64,8 @@ class Ball(pygame.sprite.Sprite):
 
     def render(self):
         pygame.draw.circle(self.display_surf, self.color, self.pos, self.radius)
-        if MODE == DEV:
-            pygame.draw.rect(self.display_surf, "yellow", self.rect, 1)
+        """if MODE == DEV:
+            pygame.draw.rect(self.display_surf, "yellow", self.rect, 1)"""
 
     def check_edges(self, scores):
         if self.pos[0] <= self.radius // 2:
@@ -91,5 +91,7 @@ class Ball(pygame.sprite.Sprite):
         self.rect.x, self.rect.y = self.pos[0] - self.radius, self.pos[1] - self.radius
         # to place it in the center - self.radius
 
-        if self.pos[1] <= self.radius or self.pos[1] >= SCREEN_HEIGHT - self.radius:
+        if self.pos[1] <= self.radius and self.movement.y == -1:
+            self.movement.y *= -1
+        elif self.pos[1] >= SCREEN_HEIGHT - self.radius and self.movement.y == 1:
             self.movement.y *= -1

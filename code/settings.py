@@ -6,5 +6,5 @@ SCREEN_HEIGHT = 600
 FPS = 30
 
 NORMAL: Literal["normal"] = "normal"
-DEV: Literal["dev"] = "dev"
-MODE: Literal["normal", "dev"] = DEV
+DEV: Literal["dev"] = "dev"  # Use only when testing or adding new features
+MODE: Literal["normal", "dev"] = NORMAL

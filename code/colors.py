@@ -6,9 +6,18 @@ ALL_COLORS = {
     'text': {'colors': ['white', 'black'], 'pos': 0},
     'button': {'colors': ['white', 'black'], 'pos': 0},
     'button text': {'colors': ['black', 'white'], 'pos': 0},
-    'box': {'colors': ['yellow'], 'pos': 0}  # yellow temp
+    'box': {'colors': ['yellow'], 'pos': 0},  # yellow temp
+    'line': {'colors': ['#63666A'], 'pos': 0}  # Gray
 }
 
 
 def get_color(colors: dict, key: str):
     return colors[key]['colors'][colors[key]['pos']]
+
+
+def set_color(colors, key, value):
+    colors[key]['pos'] = value
+
+
+def change_color(colors, key, value_to_add):
+    colors[key]['pos'] += value_to_add

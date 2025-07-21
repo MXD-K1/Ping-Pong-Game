@@ -31,7 +31,7 @@ class Game:
                 sys.exit()
 
     def update(self, fps_label):
-        if self.start_screen.play_button.pressed:
+        if self.start_screen.start_game()[0]:
             if not self.level_initialized:
                 self.level.colors = self.colors
                 pygame.mouse.set_visible(False)
@@ -44,10 +44,6 @@ class Game:
                 self.level.reset()
                 self.level_initialized = False
 
-        else:
-            if not self.start_screen.settings_button.pressed:
-                self.start_screen.play_button.check_pressed()
-
             self.colors = self.start_screen.colors
 
         if MODE == DEV:
@@ -56,7 +52,10 @@ class Game:
     def draw(self, dt, fps_label):
         self.screen.fill(get_color(self.colors, 'screen'))
 
-        if self.start_screen.play_button.pressed:
+        start, players_num = self.start_screen.start_game()
+        if start:
+            self.level.two_players = False if players_num == 1 else True
+            self.level.re_init()
             self.level.run(dt)
         else:
             self.start_screen.update()

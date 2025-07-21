@@ -37,7 +37,10 @@ I started this project from scratch to simulate the process of understanding the
 ## Problems
 1. the box color in the settings is yellow , so when changing an item color to yellow they become one.
    To understand what I mean see the [image](images/matching%20color%20problem.png).
-2. The ball move weirdly sometimes when meeting the paddle or the two horizontal edges.
+
+### Current goals:
+1. Refactoring and simplifying the code
+2. Adding a basic AI to the game.
 
 ## Contributing
 Contributions to this project are welcome and encouraged!
@@ -52,6 +55,10 @@ Whether it's improving the code, fixing problems, suggesting new features, or sh
 ## License
 This project is open-source and available under the MIT License. Feel free to use, modify, and distribute the code,
 provided proper attribution is given. For more information see the included [license](LICENSE).
+
+## Acknowledgment 
+Big thanks to [Clear Code](https://www.youtube.com/c/ClearCode) for the video that helped me fix 
+the problem of collision detection and other helpful improvements.
 
 ## Contact
 For any questions, issues, or feedback, don't hesitate to open an issue on GitHub or email me at hmdoonwork71@gmail.com.

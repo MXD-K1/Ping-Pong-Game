@@ -3,7 +3,8 @@ import time
 import pygame
 
 from settings import *
-from colors import get_color
+from colors import get_color, set_color, change_color
+from timer import Timer
 
 
 class StartScreen:
@@ -24,21 +25,42 @@ class StartScreen:
         self.welcome_label = Label(self.display_surf, "Welcome to Ping Pong", get_color(self.colors, "text"),
                                    (SCREEN_WIDTH // 2, 50))
 
+        self.one_player_button = Button(self.display_surf, get_color(self.colors, 'button'),
+                                        (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - 100),
+                                        "1 Player", 32, get_color(self.colors, 'button text'))
+
+        self.two_players_button = Button(self.display_surf, get_color(self.colors, 'button'),
+                                         (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - 30),
+                                         "2 Players", 32, get_color(self.colors, 'button text'))
+
+        self.wait_timer = Timer(1000)
+        self.wait_timer.activate()
+
     def re_init(self):
         self.play_button.color = get_color(self.colors, 'button')
         self.play_button.font_color = get_color(self.colors, 'button text')
         self.settings_button.color = get_color(self.colors, 'button')
         self.settings_button.font_color = get_color(self.colors, 'button text')
+        self.one_player_button.color = get_color(self.colors, 'button')
+        self.one_player_button.font_color = get_color(self.colors, 'button text')
+        self.two_players_button.color = get_color(self.colors, 'button')
+        self.two_players_button.font_color = get_color(self.colors, 'button text')
         # No need to change the color of the labels here because they are changed in show_settings.
 
     def update(self):
-        self.settings_button.check_pressed()
         if self.settings_button.pressed:
             self.show_settings()
+        elif self.play_button.pressed:
+            self.display_playing_menu()
+            self.wait_timer.update()
+            print(self.wait_timer.active)
+            if not self.wait_timer.active:
+                self.check_playing_sub_buttons_pressed()
         else:
             self.play_button.draw()
             self.settings_button.draw()
             self.welcome_label.draw()
+            self.settings_button.check_pressed()
 
     def show_settings(self):
         label = Label(self.display_surf, "Choose the mode color you want", get_color(self.colors, 'text'),
@@ -67,7 +89,7 @@ class StartScreen:
         for setting in settings:
             setting.update()
             if setting.is_pressed() == "right":
-                self.colors[setting.name.lower()]['pos'] -= 1
+                change_color(self.colors, setting.name.lower(), -1)
 
                 if self.colors[setting.name.lower()]['pos'] < 0:
                     self.colors[setting.name.lower()]['pos'] = len(self.colors[setting.name.lower()]['colors']) - 1
@@ -82,12 +104,12 @@ class StartScreen:
                 time.sleep(0.2)  # to add it once
 
             elif setting.is_pressed() == "left":
-                self.colors[setting.name.lower()]['pos'] += 1
+                change_color(self.colors, setting.name.lower(), 1)
 
                 if self.colors[setting.name.lower()]['pos'] < 0:
-                    self.colors[setting.name.lower()]['pos'] = len(self.colors[setting.name.lower()]['colors']) - 1
+                    set_color(self.colors, setting.name.lower(), len(self.colors[setting.name.lower()]['colors']) - 1)
                 elif self.colors[setting.name.lower()]['pos'] > len(self.colors[setting.name.lower()]['colors']) - 1:
-                    self.colors[setting.name.lower()]['pos'] = 0
+                    set_color(self.colors, setting.name.lower(), 0)
 
                 if setting.name.lower() == 'screen':
                     self.colors['text']['pos'] = self.colors['screen']['pos']
@@ -101,6 +123,32 @@ class StartScreen:
             self.settings_button.pressed = False
 
         self.re_init()
+
+    def display_playing_menu(self):
+        return_button = Button(self.display_surf, get_color(self.colors, 'button'),
+                               (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 40),
+                               "Return", 42, get_color(self.colors, 'button text'))
+
+        self.one_player_button.draw()
+        self.two_players_button.draw()
+        return_button.draw()
+
+        return_button.check_pressed()
+        if return_button.pressed:
+            self.play_button.pressed = False
+
+    def start_game(self):
+        self.play_button.check_pressed()
+        if self.play_button.pressed:
+            if self.one_player_button.pressed:
+                return True, 1
+            elif self.two_players_button.pressed:
+                return True, 2
+        return False, 0
+
+    def check_playing_sub_buttons_pressed(self):
+        self.one_player_button.check_pressed()
+        self.two_players_button.check_pressed()
 
 
 class Label:
@@ -128,9 +176,8 @@ class Button:
             self.text = text
             self.font = pygame.font.SysFont(None, font_size)
             self.font_color = font_color
-            self.no_text = False
         else:
-            self.no_text = True
+            self.text = None
 
         self.height, self.width = 60, 120
         self.rect = pygame.rect.Rect(pos[0], pos[1], self.width, self.height)
@@ -142,7 +189,7 @@ class Button:
     def draw(self):
         pygame.draw.rect(self.display_surf, self.color, self.rect, border_radius=15)
 
-        if not self.no_text:
+        if self.text:
             msg = self.font.render(self.text, True, self.font_color)
             msg_rect = msg.get_rect()
             msg_rect.center = self.rect.center
