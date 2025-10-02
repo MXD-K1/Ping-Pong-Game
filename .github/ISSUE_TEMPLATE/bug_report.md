@@ -26,9 +26,5 @@ If applicable, add screenshots to help explain your problem.
 **Desktop (please complete the following information):**
  - OS
 
-**Smartphone (please complete the following information):**
- - Device
- - OS
-
 **Additional context**
 Add any other context about the problem here.

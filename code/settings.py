@@ -7,4 +7,4 @@ FPS = 30
 
 NORMAL: Literal["normal"] = "normal"
 DEV: Literal["dev"] = "dev"  # Use only when testing or adding new features
-MODE: Literal["normal", "dev"] = NORMAL
+MODE: Literal["normal", "dev"] = DEV

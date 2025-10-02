@@ -11,6 +11,9 @@ I started this project from scratch to simulate the process of understanding the
 
 ## How to Run
 1. Clone this repository to your local machine.
+   ```bash
+   git clone 'https:\\github.com\MXD-K1\Ping-Pong-Game'
+   ```
 2. Ensure Python is installed (Python version >= 3.6 is required).  
    *You can verify your Python version with:*
    ```bash
@@ -45,20 +48,16 @@ I started this project from scratch to simulate the process of understanding the
 ## Contributing
 Contributions to this project are welcome and encouraged!
 Whether it's improving the code, fixing problems, suggesting new features, or sharing ideas, feel free to get involved.
-    
----
-*To contribute:*
-- Fork the project.
-- Make your changes.
-- Create a pull request!
 
 ## License
 This project is open-source and available under the MIT License. Feel free to use, modify, and distribute the code,
 provided proper attribution is given. For more information see the included [license](LICENSE).
 
-## Acknowledgment 
-Big thanks to [Clear Code](https://www.youtube.com/c/ClearCode) for the video that helped me fix 
-the problem of collision detection and other helpful improvements.
+## Acknowledgment
+Big thanks to [Clear Code](https://www.youtube.com/c/ClearCode) for the video of making ping pong 
+which helped me fix the problem of collision detection and for other helpful improvements.
+In addition, the sounds are taken from that tutorial.
 
 ## Contact
-For any questions, issues, or feedback, don't hesitate to open an issue on GitHub or email me at hmdoonwork71@gmail.com.
+For any questions, issues, or feedback, 
+don't hesitate to open an issue on GitHub or email me at hmdoonwork71@gmail.com.

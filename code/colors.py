@@ -1,23 +1,22 @@
 ALL_COLORS = {
-    'screen': {'colors': ['black', 'white'], 'pos': 0},
-    'paddle 1': {'colors': ['red', 'blue', 'yellow', 'orange', 'green', 'purple', 'cyan'], 'pos': 0},
-    'paddle 2': {'colors': ['blue', 'yellow', 'orange', 'green', 'purple', 'cyan', 'red'], 'pos': 0},
-    'ball': {'colors': ['white', 'black', 'red', 'blue', 'yellow', 'orange', 'green', 'purple', 'dark gray'], 'pos': 0},
-    'text': {'colors': ['white', 'black'], 'pos': 0},
-    'button': {'colors': ['white', 'black'], 'pos': 0},
-    'button text': {'colors': ['black', 'white'], 'pos': 0},
-    'box': {'colors': ['yellow'], 'pos': 0},  # yellow temp
-    'line': {'colors': ['#63666A'], 'pos': 0}  # Gray
+    'screen': ['black'],
+    'paddle 1': ['red', 'blue', 'yellow', 'orange', 'green', 'purple', 'chocolate', 'magenta', 'cyan'],
+    'paddle 2': ['blue', 'yellow', 'orange', 'green', 'purple', 'chocolate', 'magenta', 'cyan', 'red'],
+    'ball': ['white', 'red', 'blue', 'yellow', 'orange', 'green', 'purple', 'cyan', 'chocolate',
+             'dark gray', 'magenta'],
+    'text': ['white'],
+    'button': ['white'],
+    'button text': ['black'],
+    'box': ['#6686ff'],
+    'line': ['#63666A']  # Gray
 }
 
-
-def get_color(colors: dict, key: str):
-    return colors[key]['colors'][colors[key]['pos']]
+POSITIONS = {component: 0 for component in ALL_COLORS.keys()}
 
 
-def set_color(colors, key, value):
-    colors[key]['pos'] = value
+def get_color(key: str):
+    return ALL_COLORS[key][POSITIONS[key]]
 
 
-def change_color(colors, key, value_to_add):
-    colors[key]['pos'] += value_to_add
+def change_color(key: str, value_to_add: int = 1):
+    POSITIONS[key] = (value_to_add + POSITIONS[key]) % len(ALL_COLORS[key])

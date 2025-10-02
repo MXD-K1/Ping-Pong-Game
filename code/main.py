@@ -7,6 +7,8 @@ from level import Level
 from start_screen import StartScreen, Label
 from colors import ALL_COLORS, get_color
 
+from fonts import fonts
+
 
 class Game:
     def __init__(self):
@@ -31,19 +33,24 @@ class Game:
                 sys.exit()
 
     def update(self, fps_label):
-        if self.start_screen.start_game()[0]:
+        start, players_num = self.start_screen.start_game()
+        if start:
             if not self.level_initialized:
+                self.level.reset()  # IF game is restarted by hitting k
                 self.level.colors = self.colors
                 pygame.mouse.set_visible(False)
+                self.level.two_players = False if players_num == 1 else True
                 self.level.re_init()
+                self.start_screen.wait_timer.activate()
                 self.level_initialized = True
 
             if pygame.key.get_pressed()[pygame.K_k]:
-                self.start_screen.play_button.pressed = False
-                self.start_screen.one_player_button.pressed = False
-                self.start_screen.two_players_button.pressed = False
+                self.start_screen.play_button.reset()
+                self.start_screen.one_player_button.reset()
+                self.start_screen.two_players_button.reset()
                 pygame.mouse.set_visible(True)
                 self.level.reset()
+                self.start_screen.wait_timer.activate()
                 self.level_initialized = False
 
             self.colors = self.start_screen.colors
@@ -52,12 +59,9 @@ class Game:
             fps_label.text = f"FPS: {self.clock.get_fps():.2f}"
 
     def draw(self, dt, fps_label):
-        self.screen.fill(get_color(self.colors, 'screen'))
+        self.screen.fill(get_color('screen'))
 
-        start, players_num = self.start_screen.start_game()
-        if start:
-            self.level.two_players = False if players_num == 1 else True
-            self.level.re_init()
+        if self.start_screen.start_game()[0]:
             self.level.run(dt)
         else:
             self.start_screen.update()
@@ -67,13 +71,14 @@ class Game:
         pygame.display.update()
 
     def run(self):
-        fps_label = Label(self.screen, "", get_color(self.colors, 'text'),
-                          (50, SCREEN_HEIGHT - 20), 24)
+        fps_label = Label("", get_color('text'),
+                          (50, SCREEN_HEIGHT - 20), fonts['fps'])
         while True:
             self.handle_events()
 
             dt = self.clock.tick(FPS) / 100
 
+            fps_label.color = get_color('text')
             self.update(fps_label)
             self.draw(dt, fps_label)
 
