@@ -12,7 +12,7 @@ I started this project from scratch to simulate the process of understanding the
 ## How to Run
 1. Clone this repository to your local machine.
    ```bash
-   git clone 'https:\\github.com\MXD-K1\Ping-Pong-Game'
+   git clone 'https:\\github.com\MXD-K1\Ping-Pong-Game.git'
    ```
 2. Ensure Python is installed (Python version >= 3.6 is required).  
    *You can verify your Python version with:*
@@ -35,11 +35,9 @@ I started this project from scratch to simulate the process of understanding the
 ## Controls
 1. To move the first paddle use the keys w, s.
 2. To move the second paddle use the up and down arrow keys.
-3. To get out use k. The reason is that it is far form the first player movement keys.
+3. To end a game use k. The reason is that it is far form the first player movement keys.
 
-## Problems
-1. the box color in the settings is yellow , so when changing an item color to yellow they become one.
-   To understand what I mean see the [image](images/matching%20color%20problem.png).
+<!-- ## Problems --> 
 
 ### Current goals:
 1. Refactoring and simplifying the code
@@ -55,7 +53,7 @@ provided proper attribution is given. For more information see the included [lic
 
 ## Acknowledgment
 Big thanks to [Clear Code](https://www.youtube.com/c/ClearCode) for the video of making ping pong 
-which helped me fix the problem of collision detection and for other helpful improvements.
+which helped me fix the problem of collision detection.
 In addition, the sounds are taken from that tutorial.
 
 ## Contact
